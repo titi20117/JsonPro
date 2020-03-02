@@ -1,0 +1,52 @@
+{
+  "employee": [
+    {
+      "Id": 1,
+      "FirstName": "John",
+      "LastName": "Doe",
+      "Salary": 90.50
+    },
+    {
+      "Id": 2,
+      "FirstName": "Will",
+      "LastName": "Smith",
+      "Salary": 100.50
+    },
+    {
+      "Id": 3,
+      "FirstName": "Jason",
+      "LastName": "Mike",
+      "Salary": 120.50
+    },
+    {
+      "Id": 4,
+      "FirstName": "Eric",
+      "LastName": "Cantona",
+      "Salary": 110.50
+    },
+    {
+      "Id": 5,
+      "FirstName": "Jacques",
+      "LastName": "Satan",
+      "Salary": 100.50
+    },
+    {
+      "Id": 6,
+      "FirstName": "Mary",
+      "LastName": "Santana",
+      "Salary": 100.50
+    },
+    {
+      "Id": 7,
+      "FirstName": "Jefferson",
+      "LastName": "Calwin",
+      "Salary": 100.50
+    },
+    {
+      "Id": 8,
+      "FirstName": "Emile",
+      "LastName": "Rodwe",
+      "Salary": 250.50
+    }
+  ]
+}
