@@ -16,10 +16,19 @@ namespace JsonProvider
             string employeeLastName = Console.ReadLine();
             Console.Write("\n Введите сотрудник Salary : ");
             string employeeSalary = Console.ReadLine();
+            decimal salary = 0;
+            try
+            {
+                salary = Decimal.Parse(employeeSalary);
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Unable to parse'{0}'.", employeeSalary);
+            }
             int employeeId = SetIdNewEmployee();
 
-            var newEmployeeEntreprise = "{ 'Id': " + employeeId + ", 'FirstName': " + employeeFirstName + ", 'LastName': " + employeeLastName
-                + ", 'Salary': " + employeeSalary + "'}";
+            var newEmployeeEntreprise = "{ 'Id': " + employeeId + ", 'FirstName': '" + employeeFirstName + "', 'LastName': '" + employeeLastName
+                + "', 'Salary': " + salary + "}";
 
             try
             {
@@ -32,6 +41,7 @@ namespace JsonProvider
                 jsonObj["employee"] = employeeArray;
                 string newJsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
                 File.WriteAllText(DataConfig.GetFileJson(), newJsonResult);
+                Console.WriteLine("Новый сотрудник добавлен");
             }
             catch (Exception ex)
             {
