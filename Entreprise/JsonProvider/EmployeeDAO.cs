@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace JsonProvider
@@ -71,7 +72,41 @@ namespace JsonProvider
 
         public void DeleteEmployee()
         {
-            throw new NotImplementedException();
+            var json = File.ReadAllText(DataConfig.GetFileJson());
+            try
+            {
+                var jObject = JObject.Parse(json);
+                JArray employeeArray = (JArray)jObject["employee"];
+                Console.Write("Введите ID Для удаления сотрудника : ");
+                var employeeId = Convert.ToInt32(Console.ReadLine());
+
+                if (employeeId > 0)
+                {
+                    var employeeToDeleted = employeeArray.FirstOrDefault(obj => obj["Id"].Value<int>() == employeeId);
+                    if (employeeToDeleted == null)
+                    {
+                        Console.WriteLine("Такой Ид не существует");
+                    }
+                    else
+                    {
+                        employeeArray.Remove(employeeToDeleted);
+
+                        string output = Newtonsoft.Json.JsonConvert.SerializeObject(jObject, Newtonsoft.Json.Formatting.Indented);
+                        File.WriteAllText(DataConfig.GetFileJson(), output);
+                        Console.WriteLine("Сотрудник удален !");
+                    }
+                }
+                else
+                {
+                    Console.Write("Ид не существует !, попробуйте еще раз");
+                    DeleteEmployee();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public void GetAllEmployees()
@@ -102,14 +137,98 @@ namespace JsonProvider
             }
         }
 
+        public JArray GetAllEmploys()
+        {
+            var json = File.ReadAllText(DataConfig.GetFileJson());
+         
+                var jObject = JObject.Parse(json);
+                JArray employees = (JArray)jObject["employee"];
+             
+                return employees;
+        
+        }
+
+
         public void GetEmployee()
         {
-            throw new NotImplementedException();
+            var json = File.ReadAllText(DataConfig.GetFileJson());
+            try
+            {
+                var jObject = JObject.Parse(json);
+                JArray employeeArray = (JArray)jObject["employee"];
+                Console.Write("Введите ID Для сотрудника : ");
+                var employeeId = Convert.ToInt32(Console.ReadLine());
+
+                if (employeeId > 0)
+                {
+                    var employeeArr = employeeArray.FirstOrDefault(obj => obj["Id"].Value<int>() == employeeId);
+                    if (employeeArr == null)
+                    {
+                        Console.WriteLine("Такой Ид не существует");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Сотрудник Ид : " + employeeArr["Id"]);
+                        Console.WriteLine("Сотрудник Имя : " + employeeArr["FirstName"]);
+                        Console.WriteLine("Сотрудник Фамилия : " + employeeArr["LastName"]);
+                        Console.WriteLine("Сотрудник Оплата : " + employeeArr["Salary"] + "\n");
+                    }
+                }
+                else
+                {
+                    Console.Write("невалидный Ид, попробуйте еще раз");
+                    GetEmployee();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public void UpdateEmployee()
         {
-            throw new NotImplementedException();
+            string json = File.ReadAllText(DataConfig.GetFileJson());
+
+            try
+            {
+                var jObject = JObject.Parse(json);
+                JArray employeeArray = (JArray)jObject["employee"];
+                Console.Write("Введите Ид Сотрудника для изменения : ");
+                int employeeId = Convert.ToInt32(Console.ReadLine());
+
+                if (employeeId > 0)
+                {
+                    var employeeArr = employeeArray.Where(obj => obj["Id"].Value<int>() == employeeId).ToList();
+                    if (employeeArr.Count == 0)
+                    {
+                        Console.WriteLine("Такой Ид не существует");
+                    }
+                    else
+                    {
+                        Console.Write("Введите новый имя сотрудник : ");
+                        string employeeFirstName = Convert.ToString(Console.ReadLine());
+                        foreach (var item in employeeArr)
+                        {
+                            item["FirstName"] = !string.IsNullOrEmpty(employeeFirstName) ? employeeFirstName : "";
+                        }
+
+                        jObject["employee"] = employeeArray;
+                        string output = Newtonsoft.Json.JsonConvert.SerializeObject(jObject, Newtonsoft.Json.Formatting.Indented);
+                        File.WriteAllText(DataConfig.GetFileJson(), output);
+                        Console.WriteLine("Сотрудник обновлен !");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Невалидный Ид, попробуйте еще раз");
+                    UpdateEmployee();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Update error : {0}", ex.Message.ToString());
+            }
         }
     }
 }

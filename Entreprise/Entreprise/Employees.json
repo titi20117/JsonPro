@@ -7,12 +7,6 @@
       "Salary": 90.5
     },
     {
-      "Id": 2,
-      "FirstName": "Will",
-      "LastName": "Smith",
-      "Salary": 100.5
-    },
-    {
       "Id": 3,
       "FirstName": "Jason",
       "LastName": "Mike",
@@ -23,12 +17,6 @@
       "FirstName": "Eric",
       "LastName": "Cantona",
       "Salary": 110.5
-    },
-    {
-      "Id": 5,
-      "FirstName": "Jacques",
-      "LastName": "Satan",
-      "Salary": 100.5
     },
     {
       "Id": 6,
